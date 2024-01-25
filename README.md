@@ -1,2 +1,2 @@
-# Shyftlabs_Test
+# Shyftlabs Development Technical Test
 App for Student Result Management System
