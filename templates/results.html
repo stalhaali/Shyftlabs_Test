@@ -1,0 +1,72 @@
+{% extends 'common.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block results_active %}active{% endblock %}
+
+{% block content %}
+    <h1 class="mt-5">Results Page</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="{% if category == 'error' %}alert alert-danger{% elif category == 'success' %}alert alert-success{% else %}alert alert-info{% endif %} role="alert">
+                    <ul>
+                        <li>{{ message }}</li>
+                    </ul>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/results">
+        <label for="course_name">Course Name:</label>
+        <select name="course_name" required>
+            <option value="" disabled selected>Select Course</option>
+            {% for course in courses %}
+                <option value="{{ course.id }}">{{ course.course_name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="student_name">Student Name:</label>
+        <select name="student_name" required>
+            <option value="" disabled selected>Select Student</option>
+            {% for student in students %}
+                <option value="{{ student.id }}">{{ student.first_name }} {{ student.family_name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="score">Score:</label>
+        <select name="score" required>
+            <option value="" disabled selected>Select Score</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+        </select>
+        <br>
+        <button type="submit">Add Result</button>
+    </form>
+    <hr>
+    <h2>Results List</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Course</th>
+                <th scope="col">Student</th>
+                <th scope="col">Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    <td>{{ result.course.course_name }}</td>
+                    <td>{{ result.student.first_name }} {{ result.student.family_name }}</td>
+                    <td>{{ result.score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
