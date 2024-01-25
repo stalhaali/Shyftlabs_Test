@@ -70,6 +70,12 @@ def courses():
     if request.method == 'POST':
         course_name = request.form['course_name']
 
+        existing_course = Course.query.filter_by(course_name=course_name).first()
+
+        if existing_course:
+            flash('Course with the same name already exists.', 'error')
+            return redirect(url_for('courses'))
+
         new_course = Course(course_name=course_name)
 
         try:
@@ -90,12 +96,18 @@ def courses():
 def results():
 
     if request.method == 'POST':
-        course_name = request.form['course_name']
-        student_name = request.form['student_name']
+        course_id = request.form['course_name']
+        student_id = request.form['student_name']
         score = request.form['score']
 
-        student = Student.query.get(student_name)
-        course = Course.query.get(course_name)
+        existing_result = Result.query.filter_by(course_id=course_id, student_id=student_id).first()
+
+        if existing_result:
+            flash('Result for the same student and course already exists.', 'error')
+            return redirect(url_for('results'))
+
+        student = Student.query.get(student_id)
+        course = Course.query.get(course_id)
 
         new_result = Result(course=course, student=student, score=score)
 
