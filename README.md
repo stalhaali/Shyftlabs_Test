@@ -47,6 +47,7 @@ App for Student Result Management System
    ```bash
    python app.py
    ```
-
+7. **Visit URL:**
+   Open browser and visit http://127.0.0.1:5000
 
    
